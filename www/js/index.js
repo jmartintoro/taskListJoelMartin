@@ -17,6 +17,17 @@ function init() {
 function addTask() {
     result = window.prompt("Escriu la nova tasca", "new task");
     var newelem = $("<li>"+ result + "</li>");
+
+    var delButton = $("<button id=\"delButton\" >del</button>");
+    delButton.click(delTask);
+    delButton.css('float','right');
+
+    newelem.append(delButton);
     $("ul").append(newelem);
     $("ul").listview('refresh');
+}
+
+function delTask(e) {
+    var caller = e.target;
+    $(caller).parent().remove();
 }
