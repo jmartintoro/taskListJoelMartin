@@ -22,12 +22,24 @@ function addTask() {
     delButton.click(delTask);
     delButton.css('float','right');
 
+    var editButton = $("<button>edit</button>");
+    editButton.click(editTask);
+    editButton.css('float','right');
+    editButton.css('margin-right','10px');
+
     newelem.append(delButton);
+    newelem.append(editButton);
+
     $("ul").append(newelem);
+
     $("ul").listview('refresh');
 }
 
 function delTask(e) {
     var caller = e.target;
     $(caller).parent().remove();
+}
+
+function editTask(e) {
+    var caller = e.target;
 }
