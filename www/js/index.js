@@ -25,7 +25,7 @@ function addTask() {
     result = window.prompt("Escriu la nova tasca", "new task");
     tasks.push(result);
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    var newelem = $("<li>"+ result + "</li>");
+    var newelem = $("<li id='" + tasks.length + "'>"+ result + "</li>");
 
     var delButton = $("<button id=\"delButton\" >del</button>");
     delButton.click(delTask);
@@ -45,17 +45,35 @@ function addTask() {
 }
 
 function delTask(e) {
-    var caller = e.target;
-    $(caller).parent().remove();
+    var caller = e.target || e.srcElement;
+    var id = $(caller).parent().attr("id");
+    tasks.splice(id,1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    location.reload();
 }
 
 function editTask(e) {
     var caller = e.target;
+    var id = $(caller).parent().attr("id");
+    
+    var currentText = tasks[id];
+    
+    var inputField = $("<input type='text' id='editInput' value='" + currentText + "'/>");
+    var saveButton = $("<button>save</button>");
+    saveButton.click(function() {
+        var newText = inputField.val();
+        
+        tasks[id] = newText;
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        location.reload();
+    });
+
+    $(caller).parent().empty().append(inputField).append(saveButton);
 }
 
 function addTasks() {
     for (var i = 0; i < tasks.length; i++) {
-        var newelem = $("<li>"+ tasks[i] + "</li>");
+        var newelem = $("<li id='" + i + "'>"+ tasks[i] + "</li>");
 
         var delButton = $("<button id=\"delButton\" >del</button>");
         delButton.click(delTask);
